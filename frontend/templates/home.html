@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<H1>jest to strona główna</H1>
+<iframe id="ifKetcher" src="index.html" width="800" height="600"></iframe>
+<button onclick="SendSmiles()">Send SMILES</button>
+
+
+
+<script>
+    function promiseSuccess(value) {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {}}
+
+    request.open("GET",`{% url 'getshifts'%}?molecule=${value}`,true);
+    request.send();}
+
+    function promiseFailure(error) {}
+
+    function SendSmiles() {
+    var ketcherFrame = document.getElementById("ifKetcher");
+    var ketcher = null;
+    if ('contentDocument' in ketcherFrame) {
+    ketcher = ketcherFrame.contentWindow.ketcher;}
+       else {
+    ketcher = document.frames['ifKetcher'].window.ketcher;
+    }
+
+    var promise = ketcher.getSmiles();
+    promise.then(promiseSuccess, promiseFailure);
+    }
+</script>
+</body>
+</html>
